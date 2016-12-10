@@ -1,0 +1,79 @@
+/*All other styles*/
+.game-board {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /*margin-left: -2.72vw;*/
+  /*margin-right: 1.36vw;*/
+}
+.flip-container {
+  opacity: 1;
+  transition: opacity .6s;
+  transition-delay: .6s;
+}
+.flip-container.hide {
+  opacity: 0;
+}
+.flip-container.green .back {
+  background-color: #cfc;
+}
+.flip-container.red .back {
+  background-color: #fcc;
+}
+.front,
+.back {
+  align-items: center;
+  color: hsl(0, 0%, 100%);
+  display: flex;
+  font-size: 3vw;
+  font-weight: 600;
+  justify-content: center;
+  text-shadow: 0 0 5px hsla(0, 0%, 0%, .5);
+}
+.front {
+  background-color: gray;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+}
+.back {
+  background-color: hsl(0, 0%, 93%);
+  color: hsl(0, 0%, 0%);
+}
+
+/*Important styles for flipping*/
+.flip-container {
+  perspective: 1000px;
+}
+.flip-container.flip .flipper {
+  transform: rotateY(180deg);
+}
+.flip-container,
+.front,
+.back {
+  border-radius: 1rem;
+  height: 15vw;
+  margin-bottom: 1.36vw;
+  /*margin-left: 1.36vw;*/
+  width: 15vw;
+}
+.flipper {
+  position: relative;
+  transition: .6s;
+  transition-delay: .6s;
+  transform-style: preserve-3d;
+}
+.front,
+.back {
+  backface-visibility: hidden;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+.front {
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+.back {
+  /*left: -2rem;*/
+  transform: rotateY(180deg);
+}
