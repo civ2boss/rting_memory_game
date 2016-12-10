@@ -7,9 +7,7 @@ class Card extends React.Component {
         this.props.flipCard(e, this.props.id);
       }}>
         <div className="flipper">
-          <div className="front">
-            {this.props.number}
-          </div>
+          <div className="front">♤♡♧♢</div>
           <div className="back">
             {this.props.number}
           </div>

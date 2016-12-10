@@ -12,6 +12,8 @@ class MemoryGame extends React.Component {
       highScore: 0
     }
     this.flipCard = this.flipCard.bind(this);
+    this.checkWinner = this.checkWinner.bind(this);
+    this.updateCount = this.updateCount.bind(this);
     this.checkCard = this.checkCard.bind(this);
   }
 
@@ -19,7 +21,7 @@ class MemoryGame extends React.Component {
     const localStorageRef = localStorage.getItem('highScore');
     if (localStorageRef) {
       this.setState({
-        highScore: localStorageRef
+        highScore: JSON.parse(localStorageRef)
       })
     }
   }
@@ -41,7 +43,7 @@ class MemoryGame extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    localStorage.setItem('highScore', nextState.highScore);
+    localStorage.setItem('highScore', JSON.stringify(nextState.highScore));
   }
 
   randomNumber() {
@@ -115,12 +117,36 @@ class MemoryGame extends React.Component {
     }, 1000);
   }
 
+  checkWinner() {
+    const cards = this.state.cards;
+    let done = false;
+    for (const card in cards) {
+      if (cards[card].hide === true) {
+        done = true;
+      } else {
+        done = false;
+      }
+    }
+    if (done) {
+      this.setState({
+        highScore: this.state.count
+      });
+    }
+  }
+
+  updateCount() {
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
+
   checkCard(index) {
     const flipped = this.state.flipped;
     if (flipped && flipped !== index + '') {
       if (this.state.cards[flipped].number === this.state.cards[index].number) {
         this.cardsMatched(index, flipped);
         this.updateCount();
+        this.checkWinner();
       } else {
         this.cardsNotMatched(index, flipped);
         this.updateCount();
@@ -132,18 +158,12 @@ class MemoryGame extends React.Component {
     }
   }
 
-  updateCount() {
-    this.setState({
-      count: this.state.count + 1
-    })
-  }
-
   render() {
     return (
       <div>
         <h1>Memory Game</h1>
         <div className="stats">
-          High Score:
+          High Score: {this.state.highScore}
         </div>
         <div className="game-board">
           {
