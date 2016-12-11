@@ -60,7 +60,6 @@
 .flipper {
   position: relative;
   transition: .6s;
-  transition-delay: .6s;
   transform-style: preserve-3d;
 }
 .front,

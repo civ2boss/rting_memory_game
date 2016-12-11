@@ -99,14 +99,19 @@ class MemoryGame extends React.Component {
 
   cardsNotMatched(one, two) {
     let newCards = {...this.state.cards};
-    newCards[one].flipped = false;
     newCards[one].color = 'red';
-    newCards[two].flipped = false;
     newCards[two].color = 'red';
     this.setState({
-      cards: newCards,
-      flipped: ''
+      cards: newCards
     });
+    setTimeout(() => {
+      newCards[one].flipped = false;
+      newCards[two].flipped = false;
+      this.setState({
+        cards: newCards,
+        flipped: ''
+      });
+    }, 600);
     setTimeout(() => {
       newCards = {...this.state.cards};
       newCards[one].color = '';
@@ -127,7 +132,8 @@ class MemoryGame extends React.Component {
         done = false;
       }
     }
-    if (done) {
+    const highScore = this.state.highScore;
+    if (done && highScore > this.state.count) {
       this.setState({
         highScore: this.state.count
       });
@@ -163,7 +169,8 @@ class MemoryGame extends React.Component {
       <div>
         <h1>Memory Game</h1>
         <div className="stats">
-          High Score: {this.state.highScore}
+          <p>High Score: {this.state.highScore}</p>
+          <p>Current Score: {this.state.count}</p>
         </div>
         <div className="game-board">
           {
